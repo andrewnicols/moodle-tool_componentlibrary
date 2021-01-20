@@ -28,15 +28,24 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/lib/filelib.php');
 
+// Determine the requested path.
+// Paths are comprised of:
+// [root]/[folder]/[section[/subsection...]]
+// File names are ignored.
 if (empty($relativepath)) {
     $relativepath = get_file_argument();
 }
 
-$args = explode('/', ltrim($relativepath, '/'));
+$args = explode('/', ltrim($relativepath, '/'), 3);
 
-$docs = clean_param($args[0], PARAM_TEXT);
-$folder = clean_param($args[1], PARAM_TEXT);
-$section = clean_param($args[2], PARAM_TEXT);
+$docs = count($args) ? array_shift($args) : 'moodle';
+$docs = clean_param($docs, PARAM_TEXT);
+
+$folder = count($args) ? array_shift($args) : '';
+$folder = clean_param($folder, PARAM_TEXT);
+
+$section = count($args) ? array_shift($args) : '';
+$section = clean_param($section, PARAM_TEXT);
 
 $docsdir = '/admin/tool/componentlibrary/docs/';
 $cssfile = '/admin/tool/componentlibrary/hugo/dist/css/docs.css';
