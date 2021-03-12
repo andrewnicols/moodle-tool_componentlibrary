@@ -97,6 +97,11 @@ if (!file_exists($docspage)) {
     redirect($firstpage);
 }
 
+$headerfile = __DIR__ . '/docs/header.html';
+if (file_exists($headerfile)) {
+    $CFG->additionalhtmlhead .= file_get_contents($headerfile);
+}
+
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('tool_componentlibrary/navbar', $config);
 if (!file_exists($CFG->dirroot . $docsdir)) {
